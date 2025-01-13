@@ -35,6 +35,12 @@ public class ClienteService {
 		
 		clienteEncontrado.setNombre(clienteDetails.getNombre());
 		clienteEncontrado.setApellido(clienteDetails.getApellido());
+		clienteEncontrado.setDireccion(clienteDetails.getDireccion());
+		clienteEncontrado.setLocalidad(clienteDetails.getLocalidad());
+		clienteEncontrado.setProvincia(clienteDetails.getProvincia());
+		clienteEncontrado.setFechaNac(clienteDetails.getFechaNac());
+		clienteEncontrado.setEstadoActivo(clienteDetails.isEstadoActivo());
+		
 		
 		if (clienteDetails.getDni() !=0 && clienteDetails.getEmail() !=null && !clienteDetails.getEmail().isEmpty() ) {
 		

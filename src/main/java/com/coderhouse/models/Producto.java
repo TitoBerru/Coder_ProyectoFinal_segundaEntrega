@@ -1,18 +1,19 @@
 package com.coderhouse.models;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -53,38 +54,19 @@ public class Producto {
 	@Column(length = 3)
 	private String monedaProducto;
 
-	private Date fechaAltaProducto;
-	private Date fechaModificacionProducto;
+	private LocalDate fechaAltaProducto;
+	
+	private LocalDate fechaModificacionProducto;
 
 	@Column(nullable = false)
 	private boolean estadoActivoProducto;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(
-//			name = "producto_cliente", 
-//			joinColumns = @JoinColumn(name= "producto_id"), 
-//			inverseJoinColumns = @JoinColumn(name = "cliente_id"))
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+    private List<DetalleVenta> detallesVenta = new ArrayList<>();
 
-	private List<Cliente> clientes = new ArrayList<>();
-
-	// Constructores
-	public Producto() {
-		super();
-	}
-
-	public Producto(String nombreProducto, int cantidadStockProducto, int precioCompraProducto, int precioVentaProducto,
-			int descuentoProducto, boolean estadoActivoProducto) {
-		this();
-		this.nombreProducto = nombreProducto;
-		this.cantidadStockProducto = cantidadStockProducto;
-		this.precioCompraProducto = precioCompraProducto;
-		this.precioVentaProducto = precioVentaProducto;
-		this.descuentoProducto = descuentoProducto;
-		this.estadoActivoProducto = estadoActivoProducto;
-	}
-
-	// Getters and setters
-
+	// Getters, Setters, Constructor, toString
+	
 	public Long getId() {
 		return id;
 	}
@@ -146,9 +128,6 @@ public class Producto {
 	}
 
 	public void setCantidadStockProducto(int cantidadStockProducto) {
-		if (cantidadStockProducto < 0) {
-			throw new IllegalArgumentException("La cantidad en stock no puede ser menor a 0.");
-		}
 		this.cantidadStockProducto = cantidadStockProducto;
 	}
 
@@ -157,9 +136,6 @@ public class Producto {
 	}
 
 	public void setPrecioCompraProducto(int precioCompraProducto) {
-		if (precioCompraProducto < 0) {
-			throw new IllegalArgumentException("El precio del producto no puede ser menor a 0.");
-		}
 		this.precioCompraProducto = precioCompraProducto;
 	}
 
@@ -168,9 +144,6 @@ public class Producto {
 	}
 
 	public void setPrecioVentaProducto(int precioVentaProducto) {
-		if (precioVentaProducto < 0) {
-			throw new IllegalArgumentException("El precio de venta no puede ser menor a 0.");
-		}
 		this.precioVentaProducto = precioVentaProducto;
 	}
 
@@ -190,19 +163,19 @@ public class Producto {
 		this.monedaProducto = monedaProducto;
 	}
 
-	public Date getFechaAltaProducto() {
+	public LocalDate getFechaAltaProducto() {
 		return fechaAltaProducto;
 	}
 
-	public void setFechaAltaProducto(Date fechaAltaProducto) {
+	public void setFechaAltaProducto(LocalDate fechaAltaProducto) {
 		this.fechaAltaProducto = fechaAltaProducto;
 	}
 
-	public Date getFechaModificacionProducto() {
+	public LocalDate getFechaModificacionProducto() {
 		return fechaModificacionProducto;
 	}
 
-	public void setFechaModificacionProducto(Date fechaModificacionProducto) {
+	public void setFechaModificacionProducto(LocalDate fechaModificacionProducto) {
 		this.fechaModificacionProducto = fechaModificacionProducto;
 	}
 
@@ -214,12 +187,42 @@ public class Producto {
 		this.estadoActivoProducto = estadoActivoProducto;
 	}
 
-	public List<Cliente> getClientes() {
-		return clientes;
+	public List<DetalleVenta> getDetallesVenta() {
+		return detallesVenta;
 	}
 
-	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
+	public void setDetallesVenta(List<DetalleVenta> detallesVenta) {
+		this.detallesVenta = detallesVenta;
+	}
+
+
+	public Producto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Producto(Long id, String nombreProducto, String descripcionProducto, String categoriaProducto,
+			String marcaProducto, String proveedorProducto, String imgUrlProducto, int cantidadStockProducto,
+			int precioCompraProducto, int precioVentaProducto, int descuentoProducto, String monedaProducto,
+			LocalDate fechaAltaProducto, LocalDate fechaModificacionProducto, boolean estadoActivoProducto,
+			List<DetalleVenta> detallesVenta) {
+		super();
+		this.id = id;
+		this.nombreProducto = nombreProducto;
+		this.descripcionProducto = descripcionProducto;
+		this.categoriaProducto = categoriaProducto;
+		this.marcaProducto = marcaProducto;
+		this.proveedorProducto = proveedorProducto;
+		this.imgUrlProducto = imgUrlProducto;
+		this.cantidadStockProducto = cantidadStockProducto;
+		this.precioCompraProducto = precioCompraProducto;
+		this.precioVentaProducto = precioVentaProducto;
+		this.descuentoProducto = descuentoProducto;
+		this.monedaProducto = monedaProducto;
+		this.fechaAltaProducto = fechaAltaProducto;
+		this.fechaModificacionProducto = fechaModificacionProducto;
+		this.estadoActivoProducto = estadoActivoProducto;
+		this.detallesVenta = detallesVenta;
 	}
 
 	@Override
@@ -231,7 +234,10 @@ public class Producto {
 				+ ", precioVentaProducto=" + precioVentaProducto + ", descuentoProducto=" + descuentoProducto
 				+ ", monedaProducto=" + monedaProducto + ", fechaAltaProducto=" + fechaAltaProducto
 				+ ", fechaModificacionProducto=" + fechaModificacionProducto + ", estadoActivoProducto="
-				+ estadoActivoProducto + ", clientes=" + clientes + "]";
+				+ estadoActivoProducto + ", detallesVenta=" + detallesVenta +   "]";
 	}
 
+	
+	
+	
 }

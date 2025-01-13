@@ -1,17 +1,20 @@
 package com.coderhouse.models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,43 +44,25 @@ public class Cliente {
 
 	@Column(length = 100)
 	private String provincia;
-
+	
+	@Column
 	private Date fechaNac;
 
-	private Date fechaRegistro;
+	private LocalDate fechaRegistro;
 
-	private Date fechaModificacionRegistro;
+	private LocalDate fechaModificacionRegistro;
 
 	private boolean estadoActivo;
-
-	@ManyToMany(mappedBy = "clientes", fetch = FetchType.EAGER)
-	private List<Producto> productos = new ArrayList<>();
-
+	
 	private LocalDateTime createdAt;
 
-	// Constructores
-	public Cliente() {
-		super();
-	}
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+    private List<Venta> ventas = new ArrayList<>();
 
-	public Cliente(String nombre, String apellido, int dni, boolean estadoActivo, List<Producto> productos) {
-		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.dni = dni;
-		this.estadoActivo = estadoActivo;
-		this.productos = productos;
-	}
 
-	public Cliente(String nombre, String apellido, int dni) {
-		this();
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.dni = dni;
-	}
-
-	// Getters and Setters
-
+	// Getters, Setters, Constructor, toString
+	
 	public Long getId() {
 		return id;
 	}
@@ -150,19 +135,19 @@ public class Cliente {
 		this.fechaNac = fechaNac;
 	}
 
-	public Date getFechaRegistro() {
+	public LocalDate getFechaRegistro() {
 		return fechaRegistro;
 	}
 
-	public void setFechaRegistro(Date fechaRegistro) {
+	public void setFechaRegistro(LocalDate fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public Date getFechaModificacionRegistro() {
+	public LocalDate getFechaModificacionRegistro() {
 		return fechaModificacionRegistro;
 	}
 
-	public void setFechaModificacionRegistro(Date fechaModificacionRegistro) {
+	public void setFechaModificacionRegistro(LocalDate fechaModificacionRegistro) {
 		this.fechaModificacionRegistro = fechaModificacionRegistro;
 	}
 
@@ -174,12 +159,12 @@ public class Cliente {
 		this.estadoActivo = estadoActivo;
 	}
 
-	public List<Producto> getProductos() {
-		return productos;
+	public List<Venta> getVentas() {
+		return ventas;
 	}
 
-	public void setProductos(List<Producto> productos) {
-		this.productos = productos;
+	public void setVentas(List<Venta> ventas) {
+		this.ventas = ventas;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -190,13 +175,42 @@ public class Cliente {
 		this.createdAt = createdAt;
 	}
 
+	public Cliente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Cliente(Long id, String nombre, String apellido, int dni, String email, String direccion, String localidad,
+			String provincia, Date fechaNac, LocalDate fechaRegistro, LocalDate fechaModificacionRegistro, boolean estadoActivo,
+			LocalDateTime createdAt, List<Venta> ventas) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.dni = dni;
+		this.email = email;
+		this.direccion = direccion;
+		this.localidad = localidad;
+		this.provincia = provincia;
+		this.fechaNac = fechaNac;
+		this.fechaRegistro = fechaRegistro;
+		this.fechaModificacionRegistro = fechaModificacionRegistro;
+		this.estadoActivo = estadoActivo;
+		this.createdAt = createdAt;
+		this.ventas = ventas;
+	}
+
 	@Override
 	public String toString() {
 		return "Cliente [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", dni=" + dni + ", email="
 				+ email + ", direccion=" + direccion + ", localidad=" + localidad + ", provincia=" + provincia
 				+ ", fechaNac=" + fechaNac + ", fechaRegistro=" + fechaRegistro + ", fechaModificacionRegistro="
-				+ fechaModificacionRegistro + ", estadoActivo=" + estadoActivo + ", productos=" + productos
-				+ ", createdAt=" + createdAt + "]";
+				+ fechaModificacionRegistro + ", estadoActivo=" + estadoActivo + ", createdAt=" + createdAt
+				+ ", ventas=" + ventas + "]";
 	}
+
+	
+	
+	
 
 }

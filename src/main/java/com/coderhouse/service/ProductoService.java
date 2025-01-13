@@ -1,12 +1,11 @@
 package com.coderhouse.service;
 
-import java.sql.Date;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.coderhouse.models.Cliente;
 import com.coderhouse.models.Producto;
 import com.coderhouse.repositories.ProductoRepository;
 
@@ -82,9 +81,8 @@ public class ProductoService {
 		        productoEncontrado.setMonedaProducto(productoDetails.getMonedaProducto());
 		    }
 
-		    productoEncontrado.setFechaModificacionProducto(new Date(System.currentTimeMillis()));
-
-		   
+		    // Set y get de FechaModificacionProducto, no seria neceario ya que lo hago desde el modelo
+		    // al usar localDate
 		    return productoRepository.save(productoEncontrado);
 		}
 

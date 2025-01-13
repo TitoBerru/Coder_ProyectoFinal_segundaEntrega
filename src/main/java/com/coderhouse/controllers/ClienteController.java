@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.coderhouse.models.Cliente;
 import com.coderhouse.service.ClienteService;
 
@@ -49,7 +50,7 @@ public class ClienteController {
 			}
 		}
 		@PostMapping("/create")
-		public ResponseEntity<Cliente> createAlumno(@RequestBody Cliente cliente) {
+		public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
 			try {
 				Cliente clienteCreado = clienteService.saveCliente(cliente);
 				return ResponseEntity.status(HttpStatus.CREATED).body(clienteCreado);

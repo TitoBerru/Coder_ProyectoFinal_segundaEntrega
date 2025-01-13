@@ -11,9 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable; 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -56,133 +60,23 @@ public class Cliente {
 	
 	private LocalDateTime createdAt;
 
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
-    private List<Venta> ventas = new ArrayList<>();
+	@ManyToMany @JoinTable( 
+			name = "producto_cliente", 
+			joinColumns = @JoinColumn(name = "cliente_id"), 
+			inverseJoinColumns = @JoinColumn(name = "producto_id")) 
+	private List<Producto> productos = new ArrayList<>();
 
-
-	// Getters, Setters, Constructor, toString
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public int getDni() {
-		return dni;
-	}
-
-	public void setDni(int dni) {
-		this.dni = dni;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
-	public String getLocalidad() {
-		return localidad;
-	}
-
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
-	}
-
-	public String getProvincia() {
-		return provincia;
-	}
-
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
-
-	public Date getFechaNac() {
-		return fechaNac;
-	}
-
-	public void setFechaNac(Date fechaNac) {
-		this.fechaNac = fechaNac;
-	}
-
-	public LocalDate getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(LocalDate fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
-	public LocalDate getFechaModificacionRegistro() {
-		return fechaModificacionRegistro;
-	}
-
-	public void setFechaModificacionRegistro(LocalDate fechaModificacionRegistro) {
-		this.fechaModificacionRegistro = fechaModificacionRegistro;
-	}
-
-	public boolean isEstadoActivo() {
-		return estadoActivo;
-	}
-
-	public void setEstadoActivo(boolean estadoActivo) {
-		this.estadoActivo = estadoActivo;
-	}
-
-	public List<Venta> getVentas() {
-		return ventas;
-	}
-
-	public void setVentas(List<Venta> ventas) {
-		this.ventas = ventas;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
+	// Constructores
 	public Cliente() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public Cliente(Long id, String nombre, String apellido, int dni, String email, String direccion, String localidad,
-			String provincia, Date fechaNac, LocalDate fechaRegistro, LocalDate fechaModificacionRegistro, boolean estadoActivo,
-			LocalDateTime createdAt, List<Venta> ventas) {
+			String provincia, Date fechaNac, LocalDate fechaRegistro, LocalDate fechaModificacionRegistro,
+			boolean estadoActivo, LocalDateTime createdAt, List<Producto> productos) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -197,8 +91,149 @@ public class Cliente {
 		this.fechaModificacionRegistro = fechaModificacionRegistro;
 		this.estadoActivo = estadoActivo;
 		this.createdAt = createdAt;
-		this.ventas = ventas;
+		this.productos = productos;
 	}
+
+	// Getters, Setters, toString
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getApellido() {
+		return apellido;
+	}
+
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+
+	public int getDni() {
+		return dni;
+	}
+
+
+	public void setDni(int dni) {
+		this.dni = dni;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+
+	public Date getFechaNac() {
+		return fechaNac;
+	}
+
+
+	public void setFechaNac(Date fechaNac) {
+		this.fechaNac = fechaNac;
+	}
+
+
+	public LocalDate getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+
+	public void setFechaRegistro(LocalDate fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+
+	public LocalDate getFechaModificacionRegistro() {
+		return fechaModificacionRegistro;
+	}
+
+
+	public void setFechaModificacionRegistro(LocalDate fechaModificacionRegistro) {
+		this.fechaModificacionRegistro = fechaModificacionRegistro;
+	}
+
+
+	public boolean isEstadoActivo() {
+		return estadoActivo;
+	}
+
+
+	public void setEstadoActivo(boolean estadoActivo) {
+		this.estadoActivo = estadoActivo;
+	}
+
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
+	}
+
 
 	@Override
 	public String toString() {
@@ -206,10 +241,13 @@ public class Cliente {
 				+ email + ", direccion=" + direccion + ", localidad=" + localidad + ", provincia=" + provincia
 				+ ", fechaNac=" + fechaNac + ", fechaRegistro=" + fechaRegistro + ", fechaModificacionRegistro="
 				+ fechaModificacionRegistro + ", estadoActivo=" + estadoActivo + ", createdAt=" + createdAt
-				+ ", ventas=" + ventas + "]";
+				+ ", productos=" + productos + "]";
 	}
 
 	
+	
+	
+
 	
 	
 

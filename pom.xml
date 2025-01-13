@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.coderhouse</groupId>
-	<artifactId>FacturacionSegundaEntregaBerrutti</artifactId>
+	<artifactId>FacturacionSegundaEntregaBerrutti2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>FacturacionSegundaEntregaBerrutti</name>
-	<description>FacturacionSegundaEntregaBerrutti</description>
+	<name>FacturacionSegundaEntregaBerrutti2</name>
+	<description>FacturacionSegundaEntregaBerrutti2</description>
 	<url/>
 	<licenses>
 		<license/>

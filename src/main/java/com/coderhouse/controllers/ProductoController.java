@@ -23,7 +23,8 @@ public class ProductoController {
 
 	@Autowired
 	private ProductoService productoService;
-
+	
+	//Obtener todos los productos
 	@GetMapping
 	public ResponseEntity<List<Producto>> getAllProductos() {
 		try {
@@ -34,7 +35,8 @@ public class ProductoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	
+	//Obtener 1 producto by Id
 	@GetMapping("/{id}")
 	public ResponseEntity<Producto> getProductoByID(@PathVariable Long id) {
 		try {
@@ -48,7 +50,8 @@ public class ProductoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	
+	// Crear 1 producto
 	@PostMapping("/create")
 	public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
 		try {
@@ -58,7 +61,7 @@ public class ProductoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	// Editar  producto
 	@PutMapping("/{id}")
 	public ResponseEntity<Producto> editProductoById(@PathVariable Long id, @RequestBody Producto productoModificado) {
 		try {
@@ -70,7 +73,8 @@ public class ProductoController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	
+	//Borrar Producto
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteProductoById(@PathVariable Long id) {
 		try {

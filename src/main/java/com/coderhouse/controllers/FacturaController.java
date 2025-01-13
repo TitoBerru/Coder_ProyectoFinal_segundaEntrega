@@ -15,32 +15,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.coderhouse.models.Venta;
-import com.coderhouse.service.VentaService;
+import com.coderhouse.models.Factura;
+import com.coderhouse.service.FacturaService;
 
 @RestController
-@RequestMapping("/api/v1/ventas")
-public class VentaController {
+@RequestMapping("/api/v1/facturas")
+public class FacturaController {
 
 	@Autowired
-	private VentaService ventaService;
-
+	private FacturaService facturaService;
+	
+	// Obtener todas las facturas
 	@GetMapping
-	public ResponseEntity<List<Venta>> getAllVentas() {
+	public ResponseEntity<List<Factura>> getAllFacturas() {
 		try {
 
-			List<Venta> ventas = ventaService.obtenerTodasLasVentas();
-			return ResponseEntity.ok(ventas); // 200
+			List<Factura> facturas = facturaService.obtenerTodasLasFacturas();
+			return ResponseEntity.ok(facturas); // 200
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	// Obtener Factura por Id
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Venta>> getVentaByID(@PathVariable Long id) {
+	public ResponseEntity<Optional<Factura>> getFacturaByID(@PathVariable Long id) {
 		try {
-			Optional<Venta> venta = ventaService.obtenerVentaPorId(id);
-			return ResponseEntity.ok(venta); // 200
+			Optional<Factura> factura = facturaService.obtenerFacturaPorId(id);
+			return ResponseEntity.ok(factura); // 200
 		}
 
 		catch (IllegalArgumentException e) {
@@ -49,33 +50,35 @@ public class VentaController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	
+	// Crear Factura
 	@PostMapping("/create")
-	public ResponseEntity<Venta> createVenta(@RequestBody Venta venta) {
+	public ResponseEntity<Factura> createFactura(@RequestBody Factura factura) {
 		try {
-			Venta ventaCreada = ventaService.crearVenta(venta);
-			return ResponseEntity.status(HttpStatus.CREATED).body(ventaCreada);
+			Factura facturaCreada = facturaService.crearFactura(factura);
+			return ResponseEntity.status(HttpStatus.CREATED).body(facturaCreada);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	
+	// Editar Factura
 	@PutMapping("/{id}")
-	public ResponseEntity<Venta> editVentaById(@PathVariable Long id, @RequestBody Venta ventaModificada) {
+	public ResponseEntity<Factura> editFacturaById(@PathVariable Long id, @RequestBody Factura facturaModificada) {
 		try {
-			Venta ventaAModificar = ventaService.actualizarVenta(id, ventaModificada);
-			return ResponseEntity.ok(ventaAModificar);
+			Factura facturaAModificar = facturaService.actualizarFactura(id, facturaModificada);
+			return ResponseEntity.ok(facturaAModificar);
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.notFound().build(); // 404
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500
 		}
 	}
-
+	// Borrar Factura
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteVentaById(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteFacturaById(@PathVariable Long id) {
 		try {
-			ventaService.eliminarVenta(id);
+			facturaService.eliminarFactura(id);
 			return ResponseEntity.noContent().build(); // 400
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.notFound().build(); // 404

@@ -16,20 +16,23 @@ public class ProductoService {
 		@Autowired
 		private ProductoRepository productoRepository;
 		
+		//Todos los productos
 		public List<Producto> getAllProductos(){
 			return productoRepository.findAll();
 		}
 		
+		//Obtener 1 producto por Id
 		public Producto findById(Long id) {
 			return productoRepository.findById(id)
 					.orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
 		}
 		
+		// Guardar 1 producto
 		@Transactional
 		public Producto saveProducto(Producto producto) {
 			return productoRepository.save(producto);
 		}
-		
+		// Editar producto
 		@Transactional
 		public Producto updateProductoById(Long id, Producto productoDetails) {
 		    // Buscar el producto existente por ID
@@ -81,14 +84,10 @@ public class ProductoService {
 		        productoEncontrado.setMonedaProducto(productoDetails.getMonedaProducto());
 		    }
 
-		    // Set y get de FechaModificacionProducto, no seria neceario ya que lo hago desde el modelo
-		    // al usar localDate
 		    return productoRepository.save(productoEncontrado);
 		}
-
-			
 		
-		
+		// Borrar Producto
 		public void deleteProductoById(Long id) {
 			if(!productoRepository.existsById(id)) {
 				throw new IllegalArgumentException("Producto no encontrado");

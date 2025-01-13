@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coderhouse.dtos.VentaDetalleDTO;
 import com.coderhouse.models.Cliente;
 import com.coderhouse.service.ClienteService;
 
@@ -24,6 +25,7 @@ public class ClienteController {
 		@Autowired
 		private ClienteService clienteService;
 		
+		//Obtener todos los clientes
 		@GetMapping
 		public ResponseEntity<List<Cliente>> getAllClientes(){
 			try {
@@ -36,6 +38,7 @@ public class ClienteController {
 			}
 		}
 		
+		//Obtener 1 cliente por ID
 		@GetMapping("/{id}")
 		public ResponseEntity<Cliente> getClienteByID(@PathVariable Long id){
 			try {
@@ -49,6 +52,8 @@ public class ClienteController {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); //500
 			}
 		}
+		
+		//Crear Cliente
 		@PostMapping("/create")
 		public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
 			try {
@@ -60,6 +65,7 @@ public class ClienteController {
 			}	
 		}
 		
+		//Editar 1 cliente
 		@PutMapping("/{id}")
 		public ResponseEntity<Cliente> editClienteById(@PathVariable Long id, @RequestBody Cliente clienteModificado){
 			try {
@@ -73,6 +79,7 @@ public class ClienteController {
 			}
 		}
 		
+		//Borrar cliente
 		@DeleteMapping("/{id}")
 		public ResponseEntity<Void> deleteClienteById(@PathVariable Long id){
 			try {
@@ -85,5 +92,19 @@ public class ClienteController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); //500
 			}
 		}
+		
+		//Comprar varios productos
+		@PostMapping("/comprar")
+		public ResponseEntity<Cliente> comprarVariosProductos(@RequestBody VentaDetalleDTO dto){
 			
+			try {
+				Cliente cliente= clienteService.comprarVariosProductos(dto);
+				return ResponseEntity.ok(cliente);
+			
+		}catch(IllegalArgumentException e) {
+			return ResponseEntity.notFound().build();  //404
+		}catch(Exception e) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); //500
+		}
+}
 }
